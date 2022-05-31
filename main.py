@@ -166,6 +166,7 @@ async def on_ready():
      print(random.choice(response))
 @client.event
 async def on_message(message):
+    player.name = str(message.author)
     print(player.name,player.history)
     player.Value()
     dealer.Value()
@@ -201,7 +202,8 @@ async def on_message(message):
         response = player.ShowCards() + dealer.ShowCards()
         if player.Value() > 21:
             response = response + str(player.name) + " Lost " + str(player.Value()) + " to " + str(dealer.Value())
-            print(player.RecordHistory(False), (str(player.name) + " Lost " + str(player.Value()) + " to " + str(dealer.Value())))
+            print(player.RecordHistory(False), (str(player.name) + " Lost " + str(player.Value()) + " to "
+                                                + str(dealer.Value())))
             dealer.RecordHistory(True)
         await message.channel.send(response)
     if message.content == "!stay":
@@ -211,12 +213,16 @@ async def on_message(message):
             dealer.Deal(Card(randint(0, 12), randint(0, 1), True))
 
         if player.Value() >= dealer.Value() and player.Value() <= 21 or dealer.Value() > 21:
-            response = player.ShowCards() + dealer.ShowCards() + ( "You Win " + str(player.Value()) + " to " + str(dealer.Value()))
-            print(player.RecordHistory(True),(str(player.name) + " Won " + str(player.Value()) + " to " + str(dealer.Value())))
+            response = player.ShowCards() + dealer.ShowCards() + ( "You Win " + str(player.Value()) + " to " +
+                                                                   str(dealer.Value()))
+            print(player.RecordHistory(True),(str(player.name) + " Won " + str(player.Value()) + " to " +
+                                              str(dealer.Value())))
             dealer.RecordHistory(False)
         else:
-            response = player.ShowCards() + dealer.ShowCards() + " You Lose " + str(player.Value()) + " to " + str(dealer.Value())
-            print(player.RecordHistory(False),(str(player.name) + " Lost " + str(player.Value()) + " to " + str(dealer.Value())))
+            response = player.ShowCards() + dealer.ShowCards() + " You Lose " + str(player.Value()) + " to " + \
+                       str(dealer.Value())
+            print(player.RecordHistory(False),(str(player.name) + " Lost " + str(player.Value()) + " to " +
+                                               str(dealer.Value())))
             dealer.RecordHistory(True)
         player.Clear()
         dealer.Clear()
