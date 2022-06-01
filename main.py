@@ -184,10 +184,14 @@ client = discord.Client()
 async def on_ready():
      response = ["Casinos Now Open!","Come on in, everyone!"]
      print(random.choice(response))
+     channel = client.get_channel(981247464826896424)
+     await channel.send('Casinos Open!')
+
 @client.event
 async def on_message(message):
     player.name = str(message.author)
-    print(player.name,player.history)
+
+
     player.Value()
     dealer.Value()
     if message.author == client.user:
