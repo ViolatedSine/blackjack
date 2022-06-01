@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "casinolistsa",
+  "private_key_id": "ee183a115e203998e3f8fb2dd6d00a06d2c5ca6c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC0qjYISwGCVA/d\nRSipO9tMQtYuB9xdRWQCjtlznlV9Lq8MwT51QNZo3i+GIQaLspA62o+sxhMEGPpF\nd5WQEqlI4Ts4AMt+YAlzqNmTzcrCDfbs4QCzlsMTfL56HKlLYtAyHderN3eJAjnz\nq1+IlOhA1VPJcMSMNC4mnsFA0USKmhtkd0+N5KX/Xz0LvDpRizWQixSyeBz0o3Q9\nAtY/5OKNVoitqrmY415JxeqcN4Po6vvDogXzLqyIaj4FEbnMsc+rVzJP99iVO+hF\nf5BApoNL/U20gWNkUqt0tzjDl7AUg7mybWdUtTz8gMgQGb/fZ6A8pq56rkIRmD2Q\n1ZjhYh2tAgMBAAECggEAJSE6O5gWtk9Kd2JISgeoOVMfK5SoAG9Lb48mN7HZxgF7\nLnbkvDpYFnNbdwiAjONk6wOSNaL7s4LipLZAAb0kF3tarVbUe6OHLcMM/Gh1/E3c\narCPcVlRvEaN6xDK5lhni3VApsqegYT4nhChcLORzAlL0AGiE2KB/aPw+b5IhOdw\nAQP9jISdk8DgSV/tsaAN4YrlKx3zplyiaHIKMwNZRiF2GXwiM9IKJNOCWryApFcC\n9e/R3SM4ItDMOUf1KEhIPItE+1Ycy9VSrI3jJJEV3m5e9X7jR+1pBscF8MdDkNR4\nzpB2AzlHKMO/76MNydfw6dgwQYzLBFRLAfsvjUbrAQKBgQD1W+N4Uhdth6aKAhEU\npkwNLPh9gqVXgC8f8Kuqx0x1cbBsjwYGTimhd4o7Z/PzLmnM94nH6o7ICg/y004P\nGDNSB3A3v4fmGK3HPbjwXojclpCCbfFcRwQ9+i+wEpaAdBth7jJIuJ7Dd5Ta+gED\n8aIRPpzgBP90bVKi8yMAnN3tbQKBgQC8gA2a+RXXz+Jv5tNJrQnCMrX8gsQQi0ak\nS6XTbnRYoPdb1LQGj4s6pcOne5kzsbYNsE+rXEpDOMovVEbhTnVR2jHMO8yQW0Db\nhooOZec++tUiBjpoQsFXrKr8lBd5aJDB/meytxc1avD382QHuqYqDWTKCT/LPpmD\nASyu4HAJQQKBgQDFN5UBs8qNCco9iCe+l2Tt+kXKbOcGDEzUuZji7stwY2/R8qx/\nCPjBhtqfoZEe2SHF1Pr0rH8UH7JuFpbZ3zPxLXVv+g38T73vNpee7f3IgWWq0UB+\nUb8BKkaGmopKugkAkHvupCdJKqeF1ApY5zLD9bYXAy1qoi0YOaLa7TwdiQKBgFuq\ncfNQ+dxPDbCZMVp8uWgkvPckqC/baujumJ9u8UlATcnsb/dYyr4kajcCFghbfUq+\n2J9ebAawkTHe6/EY9FhvoRPOaLYyiiG3FV/XElNAK3E2UiTtgZQfNa9KXPf/b5XH\nH6p6+uBRNwl85MIVdESy6raNNOajdIeOhKouHo2BAoGBAJBStbhz+nbNFIPhTbLh\ncgkNDsw8XltQGKs5+J7zwn0o++jh+7Z3NfJxVMnk2+ifkc9SpVNzudrqWqvw2ZM8\nWTkytA1qmFw4QW8GeXp7KZabgeEGLydZU7DJQ/d4eNK0jMr4PtTWQhoikMItrCJl\nHIT2wx/92FI0eZVlpTuyhZIK\n-----END PRIVATE KEY-----\n",
+  "client_email": "casinobot@casinolistsa.iam.gserviceaccount.com",
+  "client_id": "104071994346059364801",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/casinobot%40casinolistsa.iam.gserviceaccount.com"
+}
