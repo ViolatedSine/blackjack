@@ -135,3 +135,6 @@ win-inet-pton @ file:///D:/bld/win_inet_pton_1648771897787/work
 XlsxWriter @ file:///home/conda/feedstock_root/build_artifacts/xlsxwriter_1645975313810/work
 yarl @ file:///D:/bld/yarl_1648966692031/work
 zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1649012893348/work
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib

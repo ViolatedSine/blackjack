@@ -1,10 +1,28 @@
 from random import randint
+from discord.ext import tasks
+from dotenv import load_dotenv
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 import random
 import os
 import discord
-from dotenv import load_dotenv
+
+
 load_dotenv()
+
 TOKEN = os.getenv('DISCORD_TOKEN')
+AuthFile = os.getenv('SERVICE_ACCOUNT_FILE')
+Scope = ["https://www.googleapis.com/auth/spreadsheets"]
+Auth = None
+Auth = service_account.Credentials.from_service_account_file(AuthFile, scopes=Scope)
+SheetID = r'1kbEYXbXg1CEhjiLs2dsvYy2VKw87MIcBWw5L52VFfrU'
+
+
+
+API_Client = build('sheets','v4', credentials=Auth)
+PLClient = API_Client.spreadsheets()
+PlayerList = PLClient.values().get(spreadsheetId=SheetID,range="A1:E2").execute()
+print(PlayerList)
 
 
 class Player():
@@ -44,8 +62,10 @@ class Player():
     def Stats(self):
         return self.history
 
-    def SetHistory(self,history=[0,0,0]):
-        self.history = history
+    def SetHistory(self, wins, total, cash):
+        self.wins = wins
+        self.totalgames = total
+        self.cash = cash
 
     def RecordHistory(self,result):
         self.totalgames += 1
@@ -227,6 +247,5 @@ async def on_message(message):
         player.Clear()
         dealer.Clear()
         await message.channel.send(response)
-
 
 client.run(TOKEN)
