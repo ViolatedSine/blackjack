@@ -52,6 +52,10 @@ class Player():
         self.hand.append(card)
         self.Value()
 
+    def FlipCards(self):
+        for i in self.hand:
+            i.flipped = True
+
     def Hand(self):
         response = self.name + " has a "
         for i in self.hand:
@@ -73,13 +77,13 @@ class Player():
             return self.name + " lost " + str(Amount) + " VioCoins"
 
     def Result(self, result):
-        self.status[1] += 1
+        self.status[1] = int(self.status[1]) + 1
         if result:
-            self.status[0] = self.status[0]+1
-            self.status[2] = self.status[2]+50
+            self.status[0] = int(self.status[0])+1
+            self.status[2] = int(self.status[2])+50
         else:
             if self.name == "Dealer":
-                self.status[2] += -50
+                self.status[2] = int(self.status[2]) -50
         return self.status
     def Value(self):
         value = 0
@@ -252,8 +256,7 @@ async def on_message(message):
             dealer.Result(True)
         await message.channel.send(response)
     if message.content == "!stay":
-        for i in dealer.Hand():
-            i.Flip(True)
+        dealer.FlipCards()
         while dealer.Value() < 17:
             dealer.Deal(Card(randint(0, 12), randint(0, 1), True))
 
