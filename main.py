@@ -23,17 +23,65 @@ PlayerList = []
 for i in SavedList['values']:
     PlayerList.append(i)
 print(PlayerList)
-class Deck():
-    def NewDeck(self):  # defines new call function to create a new deck of cards.
-        deck = []  # creates variable "deck" as empty list
-        for y in range(0, 4):  # 0-3 sets card Suit
-            for x in range(0, 13):  # 0-14 sets card Number/Face, addition of 2 needed to avoid 0-1 in list
-                deck.append([x + 2, y])  # adds newly created "card" as its own list by appending to deck list
-        return deck
+class CardDeck():
+    def __init__(self):
+        self.deck = None
+
+    def Deal(self,number):
+        cards = []
+        for i in range(0,number):
+            cards.append(self.deck[0])
+            self.deck.pop()
+        return cards
+    def NewDeck(self):
+        self.deck = []
+        for y in range(0, 4):
+            for x in range(0, 13):
+                self.deck.append(Card[x + 2, y, False])
+        self.deck = self.Shuffle()
+        return self.deck
+
     def Shuffle(self):
-        print("hello world")
-class Game():
-    print("hello world")
+        a = 0
+        tmp = []
+        l = len(self.deck)
+        while len(tmp) != l:
+            a = randint(0, l-1)
+            if a not in tmp:
+                tmp.append(a)
+
+
+        t = []
+        t2 = []
+
+        for i in range(len(tmp)):
+            p = tmp[i]
+            t.append(self.deck[i])
+            t2.append(self.deck[p])
+            self.deck[i] = t2[0]
+            self.deck[p] = t[0]
+            t.clear()
+            t2.clear()
+        return self.deck
+class Blackjack():
+
+    def __init__(self):
+        self.deck = []
+        self.player = None
+        self.dealer = None
+
+    def Deal(self, dealer, player):
+        self.dealer = dealer
+        self.player = player
+        if len(self.deck) < 10:
+            response = "I shuffled a new deck, "
+        dealer.Deal(Card(randint(0, 12), randint(0, 1), True))
+        dealer.Deal(Card(randint(0, 12), randint(0, 1), False))
+        player.Deal(Card(randint(0, 12), randint(0, 1), True))
+        player.Deal(Card(randint(0, 12), randint(0, 1), True))
+
+    def NewDeck(self,deck):
+        self.deck = deck
 
 class Player():
     def __init__(self,name="defaultPlayer",wins=0,total=0,cash=100):
