@@ -1,10 +1,7 @@
-
-discord.py @ file:///home/conda/feedstock_root/build_artifacts/discord.py_1623518917557/work
-
-numpy @ file:///D:/bld/numpy_1646717454285/work
-opencv-python==4.5.5
-
-pandas @ file:///D:/bld/pandas_1648901015103/work
+discord.py
+numpy
+opencv-python
+pandas
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
