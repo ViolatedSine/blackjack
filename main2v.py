@@ -110,15 +110,15 @@ async def on_message(message):
     if message.content == "!draw":
         record = df.loc[df['Name'] == message.author]
 
-        card = Card(6, 2, True)
-
+        card = Card(randint(2, 13), randint(0, 3), True)
         if len(record) < 1 :
-            df.loc[len(df.index)] = [message.author,0,0,100,[card.Value()]]
+            df.loc[len(df.index)] = [message.author, 0, 0, 100, [card.Value()]]
             print(df)
         else:
+            df.loc[df['Name'] == message.author, 'Hand'] = card.Value()
             print(record)
         response = card.Info()
-        wks.set_dataframe(df,(1,1))
+        #wks.set_dataframe(df)
         await message.channel.send(response)
 
 client.run(TOKEN)
