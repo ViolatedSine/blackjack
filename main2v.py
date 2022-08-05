@@ -1,4 +1,6 @@
 from random import randint
+
+import pandas
 from discord.ext import tasks
 from dotenv import load_dotenv
 from google.oauth2 import service_account
@@ -19,13 +21,6 @@ Auth = None
 Auth = service_account.Credentials.from_service_account_file(AuthFile, scopes=Scope)
 SheetID = r'1kbEYXbXg1CEhjiLs2dsvYy2VKw87MIcBWw5L52VFfrU'
 
-API_Client = build('sheets', 'v4', credentials=Auth)
-PLClient = API_Client.spreadsheets()
-SavedList = PLClient.values().get(spreadsheetId=SheetID, range="A1:f4").execute()
-PlayerList = []
-for i in SavedList['values']:
-    PlayerList.append(i)
-print(PlayerList)
 
 gc = pygsheets.authorize(service_file=AuthFile)
 
@@ -33,14 +28,16 @@ gc = pygsheets.authorize(service_file=AuthFile)
 df = pd.DataFrame()
 
 # Create a column
-df['ID'] = [0, 1, 2]
+
 
 sh = gc.open('CasinoList')
 
 wks = sh[0]
 
 namelist = pd.DataFrame(wks.get_col(1))
-df = pd.DataFrame(wks.get_all_values())
+df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
+
+
 print(namelist)
 print(df)
 #wks.set_dataframe(df,(1,1))
@@ -111,8 +108,17 @@ async def on_message(message):
         await message.channel.send(response)
 
     if message.content == "!draw":
+        record = df.loc[df['Name'] == message.author]
+
         card = Card(6, 2, True)
+
+        if len(record) < 1 :
+            df.loc[len(df.index)] = [message.author,0,0,100,[card.Value()]]
+            print(df)
+        else:
+            print(record)
         response = card.Info()
+        wks.set_dataframe(df,(1,1))
         await message.channel.send(response)
 
 client.run(TOKEN)
