@@ -23,6 +23,7 @@ PlayerList = []
 for i in SavedList['values']:
     PlayerList.append(i)
 print(PlayerList)
+
 class CardDeck():
     def __init__(self):
         self.deck = None
@@ -34,7 +35,6 @@ class CardDeck():
             self.deck.pop()
         return cards
     def NewDeck(self):
-        self.deck = []
         for y in range(0, 4):
             for x in range(0, 13):
                 self.deck.append(Card[x + 2, y, False])
@@ -63,22 +63,12 @@ class CardDeck():
             t.clear()
             t2.clear()
         return self.deck
-class Blackjack():
 
+class Blackjack():
     def __init__(self):
         self.deck = []
         self.player = None
         self.dealer = None
-
-    def Deal(self, dealer, player):
-        self.dealer = dealer
-        self.player = player
-        if len(self.deck) < 10:
-            response = "I shuffled a new deck, "
-        dealer.Deal(Card(randint(0, 12), randint(0, 1), True))
-        dealer.Deal(Card(randint(0, 12), randint(0, 1), False))
-        player.Deal(Card(randint(0, 12), randint(0, 1), True))
-        player.Deal(Card(randint(0, 12), randint(0, 1), True))
 
     def NewDeck(self,deck):
         self.deck = deck
@@ -102,7 +92,7 @@ class Player():
 
     def FlipCards(self):
         for i in self.hand:
-            i.flipped = True
+            i.flip(True)
 
     def Hand(self):
         response = self.name + " has a "
@@ -144,50 +134,25 @@ class Player():
 class Card():
     suitList = ["Spades", "Clubs", "Hearts", "Diamonds"]
     faceList = ["Jack", "Queen", "King", "Ace"]
-    cardBack = r" _____ ", r"|\ ~ /|", r"|}}:{{|", r"|}}:{{|", r"|}}:{{|", r"|/_~_\|"
-    cardFront = [
-        [[r" _____ ", r"|2    |", r"|  ^  |", r"|     |", r"|  ^  |", r"|____Z|"],
-         [r" _____ ", r"|3    |", r"| ^ ^ |", r"|     |", r"|  ^  |", r"|____E|"],
-         [r" _____ ", r"|4    |", r"| ^ ^ |", r"|     |", r"| ^ ^ |", r"|____h|"],
-         [r" _____ ", r"|5    |", r"| ^ ^ |", r"|  ^  |", r"| ^ ^ |", r"|____S|"],
-         [r" _____ ", r"|6    |", r"| ^ ^ |", r"| ^ ^ |", r"| ^ ^ |", r"|____9|"],
-         [r" _____ ", r"|7    |", r"| ^ ^ |", r"|^ ^ ^|", r"| ^ ^ |", r"|____L|"],
-         [r" _____ ", r"|8    |", r"|^ ^ ^|", r"| ^ ^ |", r"|^ ^ ^|", r"|____8|"],
-         [r" _____ ", r"|9    |", r"|^ ^ ^|", r"|^ ^ ^|", r"|^ ^ ^|", r"|____6|"],
-         [r" _____ ", r"|10 ^ |", r"|^ ^ ^|", r"|^ ^ ^|", r"|^ ^ ^|", r"|___0I|"],
-         [r" _____ ", r"|J  ww|", r"| ^ {)|", r"|(.)% |", r"| | % |", r"|__%%[|"],
-         [r" _____ ", r"|Q  ww|", r"| ^ {(|", r"|(.)%%|", r"| |%%%|", r"|_%%%O|"],
-         [r" _____ ", r"|K  WW|", r"| ^ {)|", r"|(.)%%|", r"| |%%%|", r"|_%%%>|"],
-         [r" _____ ", r"|A .  |", r"| /.\ |", r"|(_._)|", r"|  |  |", r"|____V|"]],
-        [[r" _____ ", r"|2    |", r"|  &  |", r"|     |", r"|  &  |", r"|____Z|"],
-         [r" _____ ", r"|3    |", r"| & & |", r"|     |", r"|  &  |", r"|____E|"],
-         [r" _____ ", r"|4    |", r"| & & |", r"|     |", r"| & & |", r"|____h|"],
-         [r" _____ ", r"|5    |", r"| & & |", r"|  &  |", r"| & & |", r"|____S|"],
-         [r" _____ ", r"|6    |", r"| & & |", r"| & & |", r"| & & |", r"|____9|"],
-         [r" _____ ", r"|7    |", r"| & & |", r"|& & &|", r"| & & |", r"|____L|"],
-         [r" _____ ", r"|8    |", r"|& & &|", r"| & & |", r"|& & &|", r"|____8|"],
-         [r" _____ ", r"|9    |", r"|& & &|", r"|& & &|", r"|& & &|", r"|____6|"],
-         [r" _____ ", r"|10 & |", r"|& & &|", r"|& & &|", r"|& & &|", r"|___0I|"],
-         [r" _____ ", r"|J  ww|", r"| o {)|", r"|o o% |", r"| | % |", r"|__%%[|"],
-         [r" _____ ", r"|Q  ww|", r"| o {(|", r"|o o%%|", r"| |%%%|", r"|_%%%O|"],
-         [r" _____ ", r"|K  WW|", r"| o {)|", r"|o o%%|", r"| |%%%|", r"|_%%%>|"],
-         [r" _____ ", r"|A _  |", r"| ( ) |", r"|(_'_)|", r"|  |  |", r"|____V|"]]
-    ]
 
     def __init__(self, value, suit, flipped):
         self.flipped = flipped
         self.suit = self.suitList[suit]
-        self.image = self.cardFront[suit][value]
+
         self.info = str() + " Of " + str(self.suitList[suit])
-        if value < 9:
-            self.number = value + 2
+        if value < 2:
+            value = 2
+        if value > 13:
+            value = 13
+        if value < 11:
+            self.number = value
             self.info = str(self.number) + " of " + str(self.suitList[suit])
-        if value > 8:
+        if value > 10:
             self.number = 10
-            self.info = str(self.faceList[value - 9]) + " of " + str(self.suitList[suit])
-        if value == 12:
+            self.info = str(self.number) + " of " + str(self.suitList[suit])
+        if value == 13:
             self.number = 11
-            self.info = str(self.faceList[value - 9]) + " of " + str(self.suitList[suit])
+            self.info = str(self.faceList[value - 11]) + " of " + str(self.suitList[suit])
 
     def Flip(self,value):
         print(self.flipped)
@@ -202,11 +167,6 @@ class Card():
     def Value(self):
         return [self.number, self.suit]
 
-    def Draw(self):
-        if not self.flipped:
-            return self.cardBack
-        else:
-            return self.image
 
 
 def PlayRound(player, dealer):
@@ -324,5 +284,6 @@ async def on_message(message):
         dealer.Clear()
         await message.channel.send(response)
 
-
+deck = CardDeck.NewDeck()
+print(deck.Hand())
 client.run(TOKEN)
