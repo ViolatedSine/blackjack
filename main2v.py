@@ -11,7 +11,6 @@ import discord
 import pygsheets
 import pandas as pd
 
-
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -20,7 +19,6 @@ Scope = ["https://www.googleapis.com/auth/spreadsheets"]
 Auth = None
 Auth = service_account.Credentials.from_service_account_file(AuthFile, scopes=Scope)
 SheetID = r'1kbEYXbXg1CEhjiLs2dsvYy2VKw87MIcBWw5L52VFfrU'
-
 
 gc = pygsheets.authorize(service_file=AuthFile)
 
@@ -34,13 +32,13 @@ sh = gc.open('CasinoList')
 wks = sh[0]
 df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
 
-
 print(df)
-#wks.set_dataframe(df,(1,1))
 
 
+# wks.set_dataframe(df,(1,1))
 
-#client = discord.Client()
+
+# client = discord.Client()
 
 
 class Card:
@@ -80,16 +78,18 @@ class Card:
 
     def New(self):
         self.suit = random.choice(self.suitList)
-        self.number = random.randint(1,12)
+        self.number = random.randint(1, 12)
         self.flipped = True
         return [self.number, self.suit]
 
 
 client = discord.Client()
+
+
 @client.event
 async def on_ready():
     response = ["Casinos Now Open!", "Come on in, everyone!"]
-    #print(random.choice(response))
+    # print(random.choice(response))
     channel = client.get_channel(981247464826896424)
     await channel.send(random.choice(response))
 
@@ -131,11 +131,19 @@ async def on_message(message):
             card2 = Card(randint(2, 13), randint(0, 3), True)
             deal1 = Card(randint(2, 13), randint(0, 3), True)
             deal2 = Card(randint(2, 13), randint(0, 3), True)
-            wks.update_row(record[0].row, [str(message.author), 0, 0, 100, card1.Info()+":"+card2.Info(), deal1.Info()
-                                           + ":" + deal2.Info()], col_offset=0)
-            response = str(message.author) + " drew a " + card1.Info()+":"+card2.Info()
+            dealerstring = card1.Info() + ":" + card2.Info()
+            if deal1.Value()[0] + deal2.Value()[0] < 17:
+                deal3 = Card(randint(2, 13), randint(0, 3), True)
+                dealerstring = deal1.Info() + ":" + deal2.Info() + ":" + deal3.Info()
+
+            wks.update_row(record[0].row,
+                           [str(message.author), 0, 0, 100, card1.Info() + ":" + card2.Info(), dealerstring],
+                           col_offset=0)
+            response = str(message.author) + " drew a " + card1.Info() + ":" + card2.Info() + \
+                       ". The dealer has a " + deal1.Info()
         else:
             response = "You are already playing a hand"
         await message.channel.send(response)
+
 
 client.run(TOKEN)
