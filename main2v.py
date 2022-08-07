@@ -109,18 +109,17 @@ async def on_message(message):
         response = "Commands: !play, !hit, !stay, !stats, !help, !DealerStats"
         await message.channel.send(response)
 
-    if message.content == "!draw":
+    if message.content == "!hit":
 
         card = Card(randint(2, 13), randint(0, 3), True)
 
         if len(record) < 1:
-            print("adding user")
-            wks.update_row(len(df.index)+2, [str(message.author), 0, 0, 100, card.Info()], col_offset=0)
+            print("new user")
+            response = "Start your frist game with !play, " + str(message.author)
         else:
-            print("adding card")
+            print(str(message.author) + ": Hit")
             wks.update_row(record[0].row, [str(message.author), 0, 0, 100, card.Info()], col_offset=0)
-
-        response = str(message.author) + " drew a " + card.Info()
+            response = str(message.author) + " drew a " + card.Info()
         await message.channel.send(response)
     if message.content == "!clear":
         wks.update_row(record[0].row, [str(message.author), 0, 0, 100, ""], col_offset=0)
