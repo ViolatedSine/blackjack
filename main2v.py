@@ -2,7 +2,6 @@ from random import randint
 
 import pandas
 from discord.ext import tasks
-from dotenv import load_dotenv
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 import random
@@ -11,10 +10,9 @@ import discord
 import pygsheets
 import pandas as pd
 
-load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
-AuthFile = os.getenv('SERVICE_ACCOUNT_FILE')
+TOKEN = "OTQ5ODg2MDkzMTgzMDI1MTYy.G9JJOD.YSLid97Cv3kXlnZ4_1puVC5JCwPFaUC_w6qt8U"
+AuthFile = keys.json
 Scope = ["https://www.googleapis.com/auth/spreadsheets"]
 Auth = None
 Auth = service_account.Credentials.from_service_account_file(AuthFile, scopes=Scope)
