@@ -81,6 +81,7 @@ class Card:
         return [self.number, self.suit]
 
 
+
 client = discord.Client()
 
 
@@ -161,6 +162,8 @@ async def on_message(message):
                 response = str(message.author) + " drew a " + card.Info() + " and lost with " + str(pvalue)
                 wks.update_row(row, [values[0], int(values[1])+1, values[2], int(values[3])+50, "", 0, "", 0],
                                col_offset=0)
+                wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
+                                   int(dealervalues[3]) + 50, "", 0, "", 0], col_offset=0)
         else:
             response = str(message.author) + " Start a new game with !play"
         print(response)
@@ -173,20 +176,24 @@ async def on_message(message):
 
         if int(values[7]) > 22:
             response = str(message.author) + " Won " + str(values[5]) + " to " + str(values[7])
+            wks.update_row(row, [values[0], int(values[1]) + 1, values[2], int(values[3]) + 50, "", 0, "", 0],
+                           col_offset=0)
             wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2]),
                                int(dealervalues[3]) - 50, "", 0, "", 0], col_offset=0)
 
         elif int(values[5]) >= int(values[7]) and int(values[5]) < 22:
             response = str(message.author) + " Won " + str(values[5]) + " to " + str(values[7])
+            wks.update_row(row, [values[0], int(values[1]) + 1, values[2], int(values[3]) + 50, "", 0, "", 0],
+                           col_offset=0)
             wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2]),
                                int(dealervalues[3])-50, "", 0, "", 0], col_offset=0)
 
         else:
             response = str(message.author) + " Lost " + str(values[5]) + " to " + str(values[7])
+            wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]) - 50, "", 0, "", 0],
+                           col_offset=0)
             wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
                                int(dealervalues[3]), "", 0, "", 0], col_offset=0)
-
-        wks.update_row(row, [values[0], int(values[1]) + 1, values[2], int(values[3]) + 50, "", 0, "", 0], col_offset=0)
 
         print(response)
         await message.channel.send(response)
