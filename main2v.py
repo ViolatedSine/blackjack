@@ -31,14 +31,10 @@ df = pd.DataFrame()
 
 
 sh = gc.open('CasinoList')
-
 wks = sh[0]
-
-namelist = pd.DataFrame(wks.get_col(1))
 df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
 
 
-print(namelist)
 print(df)
 #wks.set_dataframe(df,(1,1))
 
@@ -93,32 +89,54 @@ client = discord.Client()
 @client.event
 async def on_ready():
     response = ["Casinos Now Open!", "Come on in, everyone!"]
-    print(random.choice(response))
+    #print(random.choice(response))
     channel = client.get_channel(981247464826896424)
     await channel.send(random.choice(response))
 
 
 @client.event
 async def on_message(message):
-    print(message.content)
+    df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
+    record = wks.find(str(message.author))
+
     if message.author == client.user:
         return
+
+    print(str(message.author) + " said " + str(message.content))
+    print("stats:" + str(wks.get_row(record[0].row)))
+
     if message.content == "!help":
         response = "Commands: !play, !hit, !stay, !stats, !help, !DealerStats"
         await message.channel.send(response)
 
     if message.content == "!draw":
-        record = df.loc[df['Name'] == message.author]
 
         card = Card(randint(2, 13), randint(0, 3), True)
-        if len(record) < 1 :
-            df.loc[len(df.index)] = [message.author, 0, 0, 100, [card.Value()]]
-            print(df)
+
+        if len(record) < 1:
+            print("adding user")
+            wks.update_row(len(df.index)+2, [str(message.author), 0, 0, 100, card.Info()], col_offset=0)
         else:
-            df.loc[df['Name'] == message.author, 'Hand'] = card.Value()
-            print(record)
-        response = card.Info()
-        #wks.set_dataframe(df)
+            print("adding card")
+            wks.update_row(record[0].row, [str(message.author), 0, 0, 100, card.Info()], col_offset=0)
+
+        response = str(message.author) + " drew a " + card.Info()
+        await message.channel.send(response)
+    if message.content == "!clear":
+        wks.update_row(record[0].row, [str(message.author), 0, 0, 100, ""], col_offset=0)
+        response = str(message.author) + " cleared their hand"
+        await message.channel.send(response)
+    if message.content == "!play":
+        if wks.get_row(record[0].row)[4] == "":
+            card1 = Card(randint(2, 13), randint(0, 3), True)
+            card2 = Card(randint(2, 13), randint(0, 3), True)
+            deal1 = Card(randint(2, 13), randint(0, 3), True)
+            deal2 = Card(randint(2, 13), randint(0, 3), True)
+            wks.update_row(record[0].row, [str(message.author), 0, 0, 100, card1.Info()+":"+card2.Info(), deal1.Info()
+                                           + ":" + deal2.Info()], col_offset=0)
+            response = str(message.author) + " drew a " + card1.Info()+":"+card2.Info()
+        else:
+            response = "You are already playing a hand"
         await message.channel.send(response)
 
 client.run(TOKEN)
