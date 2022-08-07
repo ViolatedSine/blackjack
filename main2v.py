@@ -156,12 +156,17 @@ async def on_message(message):
             print(phand)
             pvalue = int(values[5]) + card.Value()[0]
             if pvalue < 22:
+                #update player hand
                 wks.update_row(row, [values[0], values[1], values[2], values[3], phand, pvalue], col_offset=0)
                 response = str(message.author) + " has " + str(pvalue) + " with " + str(phand)
             else:
+                #player bust
                 response = str(message.author) + " drew a " + card.Info() + " and lost with " + str(pvalue)
-                wks.update_row(row, [values[0], int(values[1])+1, values[2], int(values[3])-50, "", 0, "", 0],
+                #update player hand
+                wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]), "", 0, "", 0],
                                col_offset=0)
+                #update dealer +1win, +50money
+
                 wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
                                    int(dealervalues[3]) + 50, "", 0, "", 0], col_offset=0)
         else:
@@ -174,26 +179,36 @@ async def on_message(message):
         print(str(message.author) + ": Stay")
         print(values)
 
+        #dealer bust
         if int(values[7]) > 22:
             response = str(message.author) + " Won " + str(values[5]) + " to " + str(values[7])
+            #update player, +win,+50money
             wks.update_row(row, [values[0], int(values[1]) + 1, values[2], int(values[3]) + 50, "", 0, "", 0],
                            col_offset=0)
+            #update dealer -50money
             wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2]),
                                int(dealervalues[3]) - 50, "", 0, "", 0], col_offset=0)
 
+        #player win
         elif int(values[5]) >= int(values[7]) and int(values[5]) < 22:
             response = str(message.author) + " Won " + str(values[5]) + " to " + str(values[7])
+            #update player +1win, +50money
             wks.update_row(row, [values[0], int(values[1]) + 1, values[2], int(values[3]) + 50, "", 0, "", 0],
                            col_offset=0)
+            #update dealer -50money
             wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2]),
                                int(dealervalues[3])-50, "", 0, "", 0], col_offset=0)
 
         else:
+            #player lose
+
             response = str(message.author) + " Lost " + str(values[5]) + " to " + str(values[7])
-            wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]) - 50, "", 0, "", 0],
+            #update player
+            wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]), "", 0, "", 0],
                            col_offset=0)
+            #update dealer +1win
             wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
-                               int(dealervalues[3]), "", 0, "", 0], col_offset=0)
+                               int(dealervalues[3])+50, "", 0, "", 0], col_offset=0)
 
         print(response)
         await message.channel.send(response)
@@ -224,8 +239,10 @@ async def on_message(message):
                 tmpdeal = Card(randint(2, 13), randint(0, 3), True)
                 dealervalue += tmpdeal.Value()[0]
                 dealerstring += ":" + tmpdeal.Info()
+                #update dealer +1total,+10money
                 wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2])+1,
                                    int(dealervalues[3])+10, "", 0, "", 0],col_offset=0)
+                #update player +1total, +10money
                 wks.update_row(row, [values[0], values[1], int(values[2])+1, int(values[3])-10, card1.Info() + ":" +
                                      card2.Info(), card1.Value()[0] + card2.Value()[0], dealerstring, dealervalue],
                                col_offset=0)
