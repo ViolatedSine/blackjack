@@ -12,7 +12,7 @@ import pandas as pd
 
 
 TOKEN = "OTQ5ODg2MDkzMTgzMDI1MTYy.G9JJOD.YSLid97Cv3kXlnZ4_1puVC5JCwPFaUC_w6qt8U"
-AuthFile = keys.json
+AuthFile = "keys.json"
 Scope = ["https://www.googleapis.com/auth/spreadsheets"]
 Auth = None
 Auth = service_account.Credentials.from_service_account_file(AuthFile, scopes=Scope)
@@ -86,7 +86,32 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    response = ["Casinos Now Open!", "Come on in, everyone!"]
+    response = ["Welkom by Vio's Casino","	Fáilte go Casino Vio","	Mirësevini në Kazino të Vio",
+                "Benvenuti nel casinò di Vio","	مرحبا بكم في كازينو فيو","	Vio's Casinoへようこそ",
+                "	Vio's Casino-a xoş gəlmisiniz","	VIO ನ ಕ್ಯಾಸಿನೊಗೆ ಸುಸ್ವಾಗತ",
+                "	Ongi etorri Vio-ren kasinora","	Vio의 카지노에 오신 것을 환영합니다",
+                "	ভিওর ক্যাসিনোতে আপনাকে স্বাগতম","	Welcome to Vio scriptor Casino",
+                "	Сардэчна запрашаем у казіно Vio","	Laipni lūdzam VIO kazino",
+                "	Добре дошли в казиното на Vio","	Sveiki atvykę į VIO kazino",
+                "	Benvingut al Casino de Vio","	Добредојдовте во казиното на Вио",
+                "	欢迎来到Vio的赌场","	Selamat datang ke Vio's Casino","	歡迎來到Vio的賭場",
+                "	Merħba fil-każinò ta 'Vio","	Dobrodošli u Vio's Casino",
+                "	Velkommen til VIOs casino","	Vítejte v kasinu Vio","	به کازینو VIO خوش آمدید",
+                "	Velkommen til Vios casino","	Witamy w kasynie Vio","	Welkom bij Vio's Casino",
+                "	Bem -vindo ao cassino do Vio","	Welcome To Vio's Casino","	Bine ați venit la Vio's Casino",
+                "	Bonvenon al la kazino de vio","	Добро пожаловать в казино Vio","	Tere tulemast Vio kasiinosse",
+                "	Добродошли у Вио'с Цасино","	Maligayang pagdating sa Vio's Casino","	Vitajte v kasíne Vio",
+                "	Tervetuloa Vion kasinoon","	Dobrodošli v igralnici Vio","	Bienvenue au Vio's Casino",
+                "	Bienvenido al casino de Vio","	Benvido ao casino de Vio","	Karibu kwenye kasino ya Vio",
+                "	კეთილი იყოს თქვენი მობრძანება ვიოს კაზინოში","	Välkommen till Vios kasino",
+                "	Willkommen im Casino von VIO","	VIO இன் கேசினோவுக்கு வருக","	Καλώς ήλθατε στο καζίνο του Vio",
+                "	వియో యొక్క క్యాసినోకు స్వాగతం","	VIO ના કેસિનોમાં આપનું સ્વાગત છે","	ยินดีต้อนรับสู่คาสิโนของ Vio",
+                "	Byenveni nan kazino Vio a","	Vio's Casino'ya hoş geldiniz","	ברוך הבא לקזינו של Vio",
+                "	Ласкаво просимо до казино Віо","	Vio के कैसीनो में आपका स्वागत है",
+                "	ویو کے جوئے بازی کے اڈوں میں خوش آمدید","	Üdvözöljük a Vio kaszinójában",
+                "Chào mừng đến với Sòng bạc của Vio","	Verið velkomin í spilavíti Vio",
+                "	Croeso i Casino Vio","	Selamat datang di Vio's Casino",
+                "	ברוכים הבאים צו וויאָ ס קאַסינאָ"",", "Welcome To Vio's Casino"]
     # print(random.choice(response))
     channel = client.get_channel(981247464826896424)
     await channel.send(random.choice(response))
