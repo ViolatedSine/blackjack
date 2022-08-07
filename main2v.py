@@ -129,7 +129,7 @@ async def on_message(message):
 
     if len(record) < 1:
         print("new user")
-        response = "Start your frist game with !play, " + str(message.author)
+        response = "Welcome, " + str(message.author) + ". We opened an account with 100$ for you. Enjoy!"
         wks.update_row(len(df.index)+2, [str(message.author), 0, 0, 100, "",
                              0, "", 0], col_offset=0)
         print(response)
