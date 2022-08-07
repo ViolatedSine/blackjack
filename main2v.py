@@ -125,24 +125,24 @@ async def on_message(message):
 
     df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
     record = wks.find(str(message.author))
-    print(len(record))
+
     if len(record) < 1:
         print("new user")
         response = "Start your frist game with !play, " + str(message.author)
         wks.update_row(len(df.index)+2, [str(message.author), 0, 0, 100, "",
                              0, "", 0], col_offset=0)
-
+        print(response)
         await message.channel.send(response)
 
     row = record[0].row
     values = wks.get_row(row, include_tailing_empty=False)
     dealervalues = wks.get_row(2, include_tailing_empty=False)
-    print(row)
     print(str(message.author) + " said " + str(message.content))
     print("stats:" + str(wks.get_row(row, include_tailing_empty=False)))
 
     if message.content == "!help":
         response = "Commands: !play, !hit, !clear, !currentgame, !help"
+        print(response)
         await message.channel.send(response)
         return
 
@@ -163,6 +163,7 @@ async def on_message(message):
                                col_offset=0)
         else:
             response = str(message.author) + " Start a new game with !play"
+        print(response)
         await message.channel.send(response)
 
     if message.content == "!stay":
@@ -187,15 +188,18 @@ async def on_message(message):
 
         wks.update_row(row, [values[0], int(values[1]) + 1, values[2], int(values[3]) + 50, "", 0, "", 0], col_offset=0)
 
+        print(response)
         await message.channel.send(response)
 
     if message.content == "!clear":
         wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]), "", 0, "", 0], col_offset=0)
         response = str(message.author) + " cleared their hand"
+        print(response)
         await message.channel.send(response)
 
     if message.content == "!currentgame":
         response = wks.get_row(row, include_tailing_empty=False)
+        print(response)
         await message.channel.send(response)
 
     if message.content == "!play":
@@ -223,6 +227,7 @@ async def on_message(message):
                        ". The dealer has a " + deal1.Info()
         else:
             response = "You are already playing a hand"
+        print(response)
         await message.channel.send(response)
 
 
