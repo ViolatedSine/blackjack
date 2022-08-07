@@ -160,7 +160,7 @@ async def on_message(message):
                 response = str(message.author) + " has " + str(pvalue) + " with " + str(phand)
             else:
                 response = str(message.author) + " drew a " + card.Info() + " and lost with " + str(pvalue)
-                wks.update_row(row, [values[0], int(values[1])+1, values[2], int(values[3])+50, "", 0, "", 0],
+                wks.update_row(row, [values[0], int(values[1])+1, values[2], int(values[3])-50, "", 0, "", 0],
                                col_offset=0)
                 wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
                                    int(dealervalues[3]) + 50, "", 0, "", 0], col_offset=0)
