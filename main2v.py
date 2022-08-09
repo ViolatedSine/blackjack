@@ -62,7 +62,7 @@ class Card:
             self.info = str(self.faceList[value - 11]) + " of " + str(self.suitList[suit])
 
     def Flip(self, value):
-        print(self.flipped)
+        #print(self.flipped)
         self.flipped = value
 
     def Info(self):
@@ -113,10 +113,9 @@ async def on_ready():
                 "Chào mừng đến với Sòng bạc của Vio","	Verið velkomin í spilavíti Vio",
                 "	Croeso i Casino Vio","	Selamat datang di Vio's Casino",
                 "	ברוכים הבאים צו וויאָ ס קאַסינאָ"",", "Welcome To Vio's Casino"]
-    # print(random.choice(response))
-    channel = client.get_channel(981247464826896424)
-    await channel.send(random.choice(response))
-
+    print(random.choice(response))
+    mainchannel = client.get_channel(981247464826896424)
+    await mainchannel.send(random.choice(response))
 
 @client.event
 async def on_message(message):
@@ -128,32 +127,32 @@ async def on_message(message):
     record = wks.find(str(message.author))
 
     if len(record) < 1:
-        print("new user")
+        #print("new user")
         response = "Welcome, " + str(message.author) + ". We opened an account with 100$ for you. Enjoy!"
         wks.update_row(len(df.index)+2, [str(message.author), 0, 0, 100, "",
                              0, "", 0], col_offset=0)
-        print(response)
-        await message.channel.send(response)
+        mainchannel = client.get_channel(981247464826896424)
+        await mainchannel.send(response)
+        return
 
     row = record[0].row
     values = wks.get_row(row, include_tailing_empty=False)
     dealervalues = wks.get_row(2, include_tailing_empty=False)
-    print(str(message.author) + " said " + str(message.content))
-    print("stats:" + str(wks.get_row(row, include_tailing_empty=False)))
+
 
     if message.content == "!help":
-        response = "Commands: !play, !hit, !clear, !currentgame, !help"
-        print(response)
+        response = "Commands: play, hit, stay, clear, currentgame, help"
+        #print(response)
         await message.channel.send(response)
         return
 
-    if message.content == "!hit":
+    if message.content == "hit":
         if int(values[7]) > 1:
             card = Card(randint(2, 13), randint(0, 3), True)
-            print(str(message.author) + ": Hit")
-            print(values)
+            #print(str(message.author) + ": Hit")
+            #print(values)
             phand = wks.get_row(row, include_tailing_empty=False)[4] + ":"+card.Info()
-            print(phand)
+            #print(phand)
             pvalue = int(values[5]) + card.Value()[0]
             if pvalue < 22:
                 #update player hand
@@ -169,15 +168,18 @@ async def on_message(message):
 
                 wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
                                    int(dealervalues[3]) + 50, "", 0, "", 0], col_offset=0)
+                mainchannel = client.get_channel(981247464826896424)
+                await mainchannel.send(response)
         else:
-            response = str(message.author) + " Start a new game with !play"
-        print(response)
+            response = str(message.author) + " Start a new game with play"
+        #print(response)
         await message.channel.send(response)
+        return
 
-    if message.content == "!stay":
+    if message.content == "stay":
 
-        print(str(message.author) + ": Stay")
-        print(values)
+        #print(str(message.author) + ": Stay")
+        #print(values)
         if int(values[7]) < 2:
             response = str(message.author) + " Please start a game first, don't be like Kilimanjarious."
             await message.channel.send(response)
@@ -212,23 +214,27 @@ async def on_message(message):
             #update dealer +1win
             wks.update_row(2, [dealervalues[0], int(dealervalues[1])+1, int(dealervalues[2]),
                                int(dealervalues[3])+50, "", 0, "", 0], col_offset=0)
-
-        print(response)
+        mainchannel = client.get_channel(981247464826896424)
+        await mainchannel.send(response)
+        #print(response)
         await message.channel.send(response)
+        return
 
-    if message.content == "!clear":
+    if message.content == "clear":
         wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]), "", 0, "", 0], col_offset=0)
         response = str(message.author) + " cleared their hand"
-        print(response)
+        #print(response)
         await message.channel.send(response)
+        return
 
-    if message.content == "!currentgame":
+    if message.content == "currentgame":
         response = wks.get_row(row, include_tailing_empty=False)
-        print(response)
+        #print(response)
         await message.channel.send(response)
+        return
 
-    if message.content == "!play":
-        print(str(message.author) + ": New Game")
+    if message.content == "play":
+        #print(str(message.author) + ": New Game")
         if wks.get_row(row)[4] == "":
             card1 = Card(randint(2, 13), randint(0, 3), True)
             card2 = Card(randint(2, 13), randint(0, 3), True)
@@ -242,20 +248,35 @@ async def on_message(message):
                 tmpdeal = Card(randint(2, 13), randint(0, 3), True)
                 dealervalue += tmpdeal.Value()[0]
                 dealerstring += ":" + tmpdeal.Info()
-                #update dealer +1total,+10money
-                wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2])+1,
-                                   int(dealervalues[3])+10, "", 0, "", 0],col_offset=0)
-                #update player +1total, +10money
-                wks.update_row(row, [values[0], values[1], int(values[2])+1, int(values[3])-10, card1.Info() + ":" +
-                                     card2.Info(), card1.Value()[0] + card2.Value()[0], dealerstring, dealervalue],
-                               col_offset=0)
 
+            # update dealer +1total,+10money
+            wks.update_row(2, [dealervalues[0], int(dealervalues[1]), int(dealervalues[2]) + 1,
+                                int(dealervalues[3]) + 10, "", 0, "", 0], col_offset=0)
+            # update player +1total, +10money
+            wks.update_row(row, [values[0], values[1], int(values[2]) + 1, int(values[3]) - 10, card1.Info() + ":" +
+                                card2.Info(), card1.Value()[0] + card2.Value()[0], dealerstring, dealervalue],
+                               col_offset=0)
             response = str(message.author) + " drew a " + card1.Info() + ":" + card2.Info() + \
                        ". The dealer has a " + deal1.Info()
         else:
             response = "You are already playing a hand"
-        print(response)
+        #print(response)
         await message.channel.send(response)
+        return
+
+    if message.content == "!dmplay":
+        response = "ok?"
+        await message.channel.send(response)
+        return
+
+    if message.content == "mystats":
+        response = df.iloc[record[0].col,0:4]
+        await message.channel.send(response)
+        return
+    if message.content == "top10":
+        response = df.iloc[0:9,0:6].to_string()
+        await message.channel.send(response)
+        return
 
 
 client.run(TOKEN)
