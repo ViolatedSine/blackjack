@@ -178,7 +178,7 @@ async def on_message(message):
 
         print(str(message.author) + ": Stay")
         print(values)
-        if values[7] < 2:
+        if int(values[7]) < 2:
             response = str(message.author) + " Please start a game first, don't be like Kilimanjarious."
             await message.channel.send(response)
             return
