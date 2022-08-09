@@ -178,7 +178,10 @@ async def on_message(message):
 
         print(str(message.author) + ": Stay")
         print(values)
-
+        if values[7] < 2:
+            response = str(message.author) + " Please start a game first, don't be like Kilimanjarious."
+            await message.channel.send(response)
+            return
         #dealer bust
         if int(values[7]) > 22:
             response = str(message.author) + " Won " + str(values[5]) + " to " + str(values[7])
