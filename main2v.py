@@ -30,7 +30,7 @@ sh = gc.open('CasinoList')
 wks = sh[0]
 df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
 
-print(df)
+print(df.to_string())
 
 
 # wks.set_dataframe(df,(1,1))
@@ -124,6 +124,7 @@ async def on_message(message):
         return
 
     df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
+    wks.sort_range('A2','H' + str(len(df.index)+1), basecolumnindex=3, sortorder='DESCENDING')
     record = wks.find(str(message.author))
 
     if len(record) < 1:
@@ -141,7 +142,7 @@ async def on_message(message):
 
 
     if message.content == "!help":
-        response = "Commands: play, hit, stay, clear, currentgame, help"
+        response = "Commands: play, hit, stay, clear, currentgame, help, top10, mystats"
         #print(response)
         await message.channel.send(response)
         return
@@ -228,7 +229,8 @@ async def on_message(message):
         return
 
     if message.content == "currentgame":
-        response = wks.get_row(row, include_tailing_empty=False)
+        df = wks.get_as_df(include_tailing_empty=False, include_tailing_empty_rows=False)
+        response = df.iloc[record[0].col, 0:4].to_string()
         #print(response)
         await message.channel.send(response)
         return
