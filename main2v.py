@@ -272,7 +272,8 @@ async def on_message(message):
         return
 
     if message.content == "mystats":
-        response = df.iloc[record[0].col,0:4]
+        record = wks.find(str(message.author))
+        response = df.iloc[record[0].col+1,0:4]
         await message.channel.send(response)
         return
     if message.content == "top10":
