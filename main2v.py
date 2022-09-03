@@ -271,6 +271,7 @@ async def on_message(message):
         else:
             response = str(message.author) + ", dont be like Kilimanjarious. Start a new game first."
         await message.channel.send(response)
+        return
 
     if message.content == "clear":
         wks.update_row(row, [values[0], int(values[1]), values[2], int(values[3]), "", 0, "", 0], col_offset=0)
@@ -294,7 +295,7 @@ async def on_message(message):
 
     if message.content == "mystats":
         record = wks.find(str(message.author))
-        response = df.iloc[record[0].col+1, 0:4]
+        response = df.iloc[record[0].col, 0:4]
         await message.channel.send(response)
         return
 
